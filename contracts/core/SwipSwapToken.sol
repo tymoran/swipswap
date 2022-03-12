@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity >=0.6.0;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 /**
- * @title Token
- * @dev Simple ERC20 Token example yields 1000000 tokens pre-assigned to its creator.
+ * @title SwipSwapToken
+ * @dev Simple ERC20 Token yields 1000000 tokens pre-assigned to its creator.
  */
-contract Token is ERC20 {
+contract SwipSwapToken is ERC20 {
     // modify token name
     string public constant NAME = "Token";
     // modify token symbol

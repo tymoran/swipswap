@@ -1,5 +1,5 @@
 {
-  "name": "basic-erc20",
+  "name": "SwipSwap",
   "version": "1.0.0",
   "description": "",
   "scripts": {
@@ -24,6 +24,7 @@
     "hardhat": "^2.9.0"
   },
   "dependencies": {
-    "@openzeppelin/contracts": "^4.5.0"
+    "@openzeppelin/contracts": "^4.5.0",
+    "@uniswap/lib": "^4.0.1-alpha"
   }
 }
