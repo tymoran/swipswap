@@ -34,7 +34,67 @@ describe('SwipSwapPair', function () {
 
   describe('Pair reserves', () => {
     it('returns up to date reserves after minting', async function () {
-      //
+      let reserves = await pair.getReserves();
+
+      expect(reserves[0]).to.equal(0);
+      expect(reserves[1]).to.equal(0);
+
+      const token0Amount = 10000;
+      const token1Amount = 10000;
+      const pairTokenAmount = 9000;
+
+      await token0.transfer(pair.address, 10000);
+      await token1.transfer(pair.address, 10000);
+
+      let balance = await pair.balanceOf(owner.address);
+
+      expect(balance).to.equal(0);
+      await pair.mint(owner.address);
+      balance = await pair.balanceOf(owner.address);
+      expect(balance).to.equal(pairTokenAmount);
+
+      reserves = await pair.getReserves();
+      expect(reserves[0]).to.equal(token0Amount);
+      expect(reserves[1]).to.equal(token1Amount);
+    });
+
+    it('returns the tokens to the owner after burning', async function () {
+      let reserves = await pair.getReserves();
+
+      expect(reserves[0]).to.equal(0);
+      expect(reserves[1]).to.equal(0);
+
+      const token0Amount = 10000;
+      const token1Amount = 10000;
+      const pairTokenAmount = 9000;
+
+      let originalToken0Balance = await token0.balanceOf(owner.address);
+      let originalToken1Balance = await token1.balanceOf(owner.address);
+
+      await token0.transfer(pair.address, token0Amount);
+      await token1.transfer(pair.address, token1Amount);
+
+      let balance = await pair.balanceOf(owner.address);
+
+      expect(balance).to.equal(0);
+      await pair.mint(owner.address);
+      balance = await pair.balanceOf(owner.address);
+      expect(balance).to.equal(pairTokenAmount);
+
+      reserves = await pair.getReserves();
+      expect(reserves[0]).to.equal(token0Amount);
+      expect(reserves[1]).to.equal(token1Amount);
+
+      await pair.transfer(pair.address, pairTokenAmount);
+      await pair.burn(owner.address);
+      balance = await pair.balanceOf(owner.address);
+      expect(balance).to.equal(0);
+
+      let token0Balance = await token0.balanceOf(owner.address);
+      let token1Balance = await token1.balanceOf(owner.address);
+
+      expect(token0Balance).to.equal(originalToken0Balance - 1000);
+      expect(token1Balance).to.equal(originalToken1Balance - 1000);
     });
   });
 });
